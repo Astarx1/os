@@ -12,7 +12,7 @@ int main () {
 	int * a = (int *) m.my_malloc(sizeof(int));
 	melement * h = (melement *) (a - sizeof(melement));
 
-	std::cout << "Prev : [" << h->prev << "] - [" << h->adr << "] - Next : [" << h->next << "]" << std::endl;
+	std::cout << "Prev : [" << h->prev << "] - [" << h->adr << "]/[" << h << "] - Next : [" << h->next << "]" << std::endl;
 	std::cout << "Taille : " << h->bloc_s << "\n\n" << std::endl;
 	
 	m.show();

@@ -59,6 +59,7 @@ void * mvector::my_malloc(size_t t) {
 	}
 
 	melement * a = (melement*) sbrk(t+sizeof(melement));	
+	std::cout << "mvector::my_malloc : Allocation " << t + sizeof(melement) << " - [" << a << "]" << std::endl;
 	a->prev = NULL;
 	a->next = NULL;
 	a->bloc_s = t;
