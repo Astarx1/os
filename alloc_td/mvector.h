@@ -17,6 +17,7 @@ public:
 class mvector {
 	void * my_malloc (size_t);
 	void my_free (void * adr);
+	void show();
 
 	mvector() { free_f = NULL; }
 private:
@@ -59,11 +60,28 @@ void * mvector::my_malloc(size_t t) {
 
 void mvector::my_free (void * adr) {
 	melement * cur = free_f;
-	melement * h = adr-sizeof(melement);
-	while (cur != NULL) { 
-		cur = cur->next;
+	melement * h = (melement*) (adr-sizeof(melement));
+	if (cur != NULL) {
+		while (cur->next != NULL) { 
+			if (h->adr + h->bloc_s + sizeof(melement) == cur->adr) {
+				cur->bloc_s += h->bloc_s + sizeof(melement);
+			}
+			cur = cur->next;
+		}
+		cur->next = h;
+		h->prev = cur;
+	}
+	else {
+		free_f = h;
 	}
 }
 
- 
+void mvector::show() {
+	melement * cur = free_f;
+	while (cur != NULL) {
+		std::cout << "Prev : [" << cur->prev << "] - [" << cur->adr-sizeof(melement) << "] - Next : [" << cur->next << "]" << std::endl;
+		std::cout << "Taille : " << cur->bloc_s << "\n\n" << std::endl;
+		cur = cur->next;
+	}
+} 
 #endif
