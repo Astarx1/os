@@ -32,7 +32,7 @@ void * mvector::my_malloc(size_t t) {
 	while (cur != NULL) { 
 		if (cur->bloc_s >= t) {
 			if (cur->bloc_s > t + sizeof(melement)) {
-				melement * nh = (melement *) cur->adr+t+sizeof(melement);
+				melement * nh = (melement *) (((char*)cur->adr)+t+sizeof(melement));
 				if (cur->next != NULL)
 					cur->next->prev = nh;
 				if (cur->prev != NULL)
@@ -40,10 +40,12 @@ void * mvector::my_malloc(size_t t) {
 				nh->next = cur->next;
 				nh->prev = cur->prev;
 				nh->bloc_s = cur->bloc_s-t-sizeof(melement);
-				nh->adr = (melement *) cur->adr+t+sizeof(melement);
+				nh->adr = (void *) nh;
 				nh->magic_number = 0x12345678;
+				std::cout 	<< "mvector::my_malloc : Reallocation " << t + sizeof(melement) << "/" << nh->bloc_s 
+							<< " - [" << cur->adr << ", header]" << std::endl;	
 
-				return (cur->adr+sizeof(melement));
+				return (((melement *) cur->adr)+1);
 			}
 			else {
 				if (cur->next != NULL)
@@ -51,7 +53,9 @@ void * mvector::my_malloc(size_t t) {
 				if (cur->prev != NULL)
 					cur->prev->next = cur->next;
 
-				return (cur->adr+sizeof(melement));
+				std::cout 	<< "mvector::my_malloc : Reallocation entiere - [" << cur->adr << ", header]" << std::endl;	
+
+				return (((melement *) cur->adr)+1);
 			}
 		}
 
