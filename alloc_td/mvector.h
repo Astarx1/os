@@ -89,12 +89,14 @@ void mvector::my_free (void * adr) {
 		while (cur->next != NULL) { 
 			if (cur->adr < adr) {	// Aggregation venant de la droite
 				if (((char*) cur->adr) + cur->bloc_s + sizeof(melement) == (char *) h->adr) {
-					cur->bloc_s += h->bloc_s + sizeof(melement);
 					std::cout << "Agglomeration venant de la droite detectee !" << std::endl;
+					cur->bloc_s += h->bloc_s + sizeof(melement);
+					return;
 				}
 			}
 			else { // Ou de la gauche
-				if (((char *) h->adr) + h->bloc_s + sizeof(melement) == (char *) cur->adr) {				
+				if (((char *) h->adr) + h->bloc_s + sizeof(melement) == (char *) cur->adr) {
+					std::cout << "Agglomeration venant de la gauche detectee !" << std::endl;				
 					if (cur->next != NULL)
 						cur->next->prev = h;
 					if (cur->prev != NULL)
@@ -105,12 +107,12 @@ void mvector::my_free (void * adr) {
 					h->next = cur->next;
 					h->prev = cur->prev;
 					h->bloc_s += cur->bloc_s+sizeof(melement);
-
-					std::cout << "Agglomeration venant de la gauche detectee !" << std::endl;
+					return;
 				}
 			}
 			cur = cur->next;
 		}
+
 		cur->next = h;
 		h->prev = cur;
 	}
