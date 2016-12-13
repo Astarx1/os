@@ -18,7 +18,11 @@ int main () {
 	m.show();
 
 	int * c = (int *) m.my_malloc(sizeof(int));
+	
+	m.show();
+
 	m.my_free (c);
+	
 	m.show();
 
 	return 0;
