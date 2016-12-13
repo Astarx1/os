@@ -48,10 +48,12 @@ void * mvector::my_malloc(size_t t) {
 				return (((melement *) cur->adr)+1);
 			}
 			else {
-				if (cur->next != NULL)
+				if (cur->next != NULL) 
 					cur->next->prev = cur->prev;
-				if (cur->prev != NULL)
+				if (cur->prev != NULL) 
 					cur->prev->next = cur->next;
+				else 
+					free_f = cur->next;
 
 				std::cout 	<< "mvector::my_malloc : Reallocation entiere - [" << cur->adr << ", header]" << std::endl;	
 
