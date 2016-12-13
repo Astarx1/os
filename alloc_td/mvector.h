@@ -91,7 +91,7 @@ void mvector::show() {
 	melement * cur = free_f;
 	std::cout << "Pile de memoire libre : " << std::endl; 
 	while (cur != NULL) {
-		std::cout << "Prev : [" << cur->prev << "] - [" << (void*) (((melement*) cur->adr)-1) << "] - Next : [" << cur->next << "]" << std::endl;
+		std::cout << "Prev : [" << cur->prev << "] - [" << (void*) cur->adr << "] - Next : [" << cur->next << "]" << std::endl;
 		std::cout << "Taille : " << cur->bloc_s << "\n\n" << std::endl;
 		cur = cur->next;
 	}
