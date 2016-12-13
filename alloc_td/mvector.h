@@ -65,7 +65,7 @@ void * mvector::my_malloc(size_t t) {
 	a->bloc_s = t;
 	a->adr = a;
 	a->magic_number = 0x12345678;
-	return (void*) (a+sizeof(melement));
+	return (void*) (a);
 }
 
 void mvector::my_free (void * adr) {
