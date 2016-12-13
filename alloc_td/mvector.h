@@ -39,7 +39,7 @@ void * mvector::my_malloc(size_t t) {
 				if (cur->prev != NULL)
 					cur->prev->next = nh;
 				else
-					free_f = NULL;
+					free_f = cur->next;
 
 				nh->next = cur->next;
 				nh->prev = cur->prev;
