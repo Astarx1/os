@@ -70,8 +70,8 @@ void * mvector::my_malloc(size_t t) {
 
 void mvector::my_free (void * adr) {
 	melement * cur = free_f;
-	melement * h = (melement*) ((melement*) adr-1);
-
+	melement * h = (((melement*) adr)-1);
+	std::cout << "Free [" << h << "] - header - pour une adr [" << h->adr << "]" << std::endl;
 	if (cur != NULL) {
 		while (cur->next != NULL) { 
 			if ((char *) h->adr + h->bloc_s + sizeof(melement) == (char *) cur->adr) {
@@ -91,7 +91,7 @@ void mvector::show() {
 	melement * cur = free_f;
 	std::cout << "Pile de memoire libre : " << std::endl; 
 	while (cur != NULL) {
-		std::cout << "Prev : [" << cur->prev << "] - [" << (void*) (((char*) cur->adr)-sizeof(melement)) << "] - Next : [" << cur->next << "]" << std::endl;
+		std::cout << "Prev : [" << cur->prev << "] - [" << (void*) (((melement*) cur->adr)-1) << "] - Next : [" << cur->next << "]" << std::endl;
 		std::cout << "Taille : " << cur->bloc_s << "\n\n" << std::endl;
 		cur = cur->next;
 	}
