@@ -47,7 +47,7 @@ void * mvector::my_malloc(size_t t) {
 				nh->bloc_s = cur->bloc_s-t-sizeof(melement);
 				nh->adr = (void *) nh;
 				nh->magic_number = 0x12345678;
-				std::cout 	<< "mvector::my_malloc : Reallocation " << t + sizeof(melement) << "/" << nh->bloc_s 
+				std::cout 	<< "mvector::my_malloc : Reallocation " << t + sizeof(melement) << "/" << cur->bloc_s 
 							<< " - [" << cur->adr << ", header]" << std::endl;	
 
 				cur->bloc_s = t;
@@ -83,11 +83,29 @@ void * mvector::my_malloc(size_t t) {
 void mvector::my_free (void * adr) {
 	melement * cur = free_f;
 	melement * h = (((melement*) adr)-1);
-	std::cout << "Free [" << h << "] - header - pour une adr [" << h->adr << "]" << std::endl;
+	std::cout << "Free [" << h << "] - header - pour une adr [" << h->adr << "]\n" << std::endl;
+
 	if (cur != NULL) {
 		while (cur->next != NULL) { 
-			if ((char *) h->adr + h->bloc_s + sizeof(melement) == (char *) cur->adr) {
-				cur->bloc_s += h->bloc_s + sizeof(melement);
+			if (cur->adr < adr) {	// Aggregation venant de la droite
+				if (((char*) cur->adr) + cur->bloc_s + sizeof(melement) == (char *) h->adr) {
+					cur->bloc_s += h->bloc_s + sizeof(melement);
+					std::cout << "Agglomeration venant de la droite detectee !" << std::endl;
+				}
+			}
+			else { // Ou de la gauche
+				if (((char *) h->adr) + h->bloc_s + sizeof(melement) == (char *) cur->adr) {				
+					if (cur->next != NULL)
+						cur->next->prev = h;
+					if (cur->prev != NULL)
+						cur->prev->next = h;
+					else
+						free_f = h;
+
+					h->bloc_s += cur->bloc_s+sizeof(melement);
+
+					std::cout << "Agglomeration venant de la gauche detectee !" << std::endl;
+				}
 			}
 			cur = cur->next;
 		}
