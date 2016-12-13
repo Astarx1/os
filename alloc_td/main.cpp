@@ -12,13 +12,13 @@ int main () {
 	int * a = (int *) m.my_malloc(25*sizeof(int));
 	int * b = (int *) m.my_malloc(sizeof(int));
 	
-	m.my_free(a);
-	m.my_free(b);
+	m.my_free (a);
+	m.my_free (b);
 
 	m.show();
 
 	int * c = (int *) m.my_malloc(sizeof(int));
-
+	m.my_free (c);
 	m.show();
 
 	return 0;
