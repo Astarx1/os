@@ -1,18 +1,69 @@
 #ifndef MVECTOR_H
 #define MVECTOR_H
 
-template<class T>
-class melement {
+ #include <unistd.h> 
+typedef struct S_MemElem {
 public:
-	melement * prev;
-	melement * next;
+	struct S_MemElem * next;
+	struct S_MemElem * prev;
+
 	size_t bloc_s;
+
+	void * adr;
+
 	long magic_number;
+} melement;
+
+class mvector {
+	void * my_malloc (size_t);
+	void my_free (void * adr);
+
+	mvector() { free_f = NULL; }
+private:
+	melement * free_f;
 };
 
-template<class T>
-class mvector {
-	melement * f;
+void * mvector::my_malloc(size_t t) {
+	// On check d'abord si on aurait pas un peu de place en mémoire
+	melement * cur = free_f;
+	while (cur != NULL) { 
+		if (cur->bloc_s >= t) {
+			if (cur->bloc_s > t + sizeof(melement)) {
+				melement * nh = (melement *) cur->adr+t+sizeof(melement);
+				if (cur->next != NULL)
+					cur->next->prev = nh;
+				if (cur->prev != NULL)
+					cur->prev->next = nh;
+				nh->next = cur->next;
+				nh->prev = cur->prev;
+				nh->bloc_s = cur->bloc_s-t-sizeof(melement);
+				nh->adr = (melement *) cur->adr+t+sizeof(melement);
+				nh->magic_number = 0x12345678;
+			}
+			else {
+				return (cur->adr+sizeof(melement));
+			}
+		}
+
+		cur = free_f->next;
+	}
+
+	melement * a = (melement*) sbrk(t+sizeof(melement));	
+	a->prev = NULL;
+	a->next = NULL;
+	a->bloc_s = t;
+	a->adr = a;
+	a->magic_number = 0x12345678;
+	return (void*) a+sizeof(melement);
 }
 
+void mvector::my_free (void * adr) {
+	melement * cur = free_f;
+	melement * h = adr-sizeof(melement);
+	while (cur != NULL) { 
+		cur = cur->next;
+	}
+}
+
+ 
 #endif

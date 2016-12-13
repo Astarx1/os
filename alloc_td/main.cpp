@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include "mvector.h"
 
 int main () {
 	void * (* f_malloc)(size_t) = &malloc;
