@@ -70,10 +70,10 @@ void * mvector::my_malloc(size_t t) {
 
 void mvector::my_free (void * adr) {
 	melement * cur = free_f;
-	melement * h = (melement*) (adr-sizeof(melement));
+	melement * h = (melement*) ((melement*) adr-1);
 	if (cur != NULL) {
 		while (cur->next != NULL) { 
-			if (h->adr + h->bloc_s + sizeof(melement) == cur->adr) {
+			if ((char *) h->adr + h->bloc_s + sizeof(melement) == (char *) cur->adr) {
 				cur->bloc_s += h->bloc_s + sizeof(melement);
 			}
 			cur = cur->next;
