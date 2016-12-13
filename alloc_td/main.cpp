@@ -9,7 +9,7 @@ int main () {
 	std::cout << "Test my_malloc" << std::endl;
 
 	mvector m;
-	int * a = (int *) m.my_malloc(sizeof(int));
+	int * a = (int *) m.my_malloc(5*sizeof(int));
 	int * b = (int *) m.my_malloc(sizeof(int));
 	
 	m.my_free(a);
