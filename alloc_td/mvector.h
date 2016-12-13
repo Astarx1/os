@@ -15,6 +15,7 @@ public:
 } melement;
 
 class mvector {
+public:
 	void * my_malloc (size_t);
 	void my_free (void * adr);
 	void show();
