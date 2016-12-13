@@ -102,6 +102,8 @@ void mvector::my_free (void * adr) {
 					else
 						free_f = h;
 
+					h->next = cur->next;
+					h->prev = cur->prev;
 					h->bloc_s += cur->bloc_s+sizeof(melement);
 
 					std::cout << "Agglomeration venant de la gauche detectee !" << std::endl;
