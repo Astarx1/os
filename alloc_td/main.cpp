@@ -10,6 +10,7 @@ int main () {
 
 	mvector m;
 	int * a = (int *) m.my_malloc(sizeof(int));
+	std::cout << "a : [" << a << "]" << std::endl;
 	melement * h = (melement *) (a - sizeof(melement));
 
 	std::cout << "Prev : [" << h->prev << "] - [" << h->adr << "]/[" << h << "] - Next : [" << h->next << "]" << std::endl;
