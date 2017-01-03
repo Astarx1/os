@@ -18,8 +18,8 @@ static struct file_operations mydriver1_fops = {
 	.owner = THIS_MODULE,
 	.read = calcul_read,
 	.write = calcul_write,
-	.open = calcul_init,
-	.release = calcul_exit,
+	.open = calcul_open,
+	.release = calcul_release,
 };
 /* Init and Exit */
 
@@ -62,7 +62,5 @@ static ssize_t calcul_read(struct file *file, char *buffer, size_t length, loff_
 
 }
 
-/*
 module_init(hello_init);
 module_exit(hello_exit);
-*/
