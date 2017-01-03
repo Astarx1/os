@@ -1,4 +1,4 @@
-obj-m += calcule.o
+obj-m += moduleCalcule.o
 KERNEL_SOURCE = /lib/modules/$(shell uname -r)/build
 
 all :
