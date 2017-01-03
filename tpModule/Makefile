@@ -1,5 +1,5 @@
 obj-m += calcule.o
-KERNEL_SOURCE = /usr/src/linux-headers-$(shell uname -r)
+KERNEL_SOURCE = /usr/src/linux-$(shell uname -r)
 
 all :
 	make -C $(KERNEL_SOURCE) M=$(PWD) modules
