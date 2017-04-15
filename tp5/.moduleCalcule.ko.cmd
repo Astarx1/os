@@ -1,0 +1,1 @@
+cmd_/home/romain/Github/os/tpModule/moduleCalcule.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/romain/Github/os/tpModule/moduleCalcule.ko /home/romain/Github/os/tpModule/moduleCalcule.o /home/romain/Github/os/tpModule/moduleCalcule.mod.o

@@ -20,7 +20,7 @@ int main() {
 		exit(1); 
 	}
 	if ((tmp_shm = shmat(shmid,0,0))== (char *)-1) {
-		perror("semat\n");
+		perror("shmat\n");
 		exit(1);
 	}
 	shm = (segment *) tmp_shm;
@@ -38,7 +38,7 @@ int main() {
 		moy += (double) t[i]/100;
 		(shm->tab)[i] = t[i];
 	}
-	shm->result = moy;
+	shm->result = moy-2;
 
 	acq_sem(semid,seg_init);
 	wait_sem(semid, res_ok);

@@ -31,6 +31,10 @@ void wait_sem(int,int);
 void acq_sem(int,int);
 void lib_sem(int,int);
 
+void own_wait () {
+	
+}
+
 long double ma (long double a) {
 	return a >= 0 ? a : -a;
 }
